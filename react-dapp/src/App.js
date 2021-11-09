@@ -42,15 +42,17 @@ function App() {
     const removeRow = () => {
       console.log("Remove Latest Row")
       var elem = document.getElementById("div-table")
-      //br
-      elem.removeChild(elem.lastChild)
-      //input
-      var temp = elem.removeChild(elem.lastChild)
-      temp.remove()
-      //input
-      temp = elem.removeChild(elem.lastChild)
-      temp.remove()
-      id--
+      if(elem.children.length > 3){
+        //br
+        elem.removeChild(elem.lastChild)
+        //input
+        var temp = elem.removeChild(elem.lastChild)
+        temp.remove()
+        //input
+        temp = elem.removeChild(elem.lastChild)
+        temp.remove()
+        id--
+      }
     }
 
     //Constant for add row button
