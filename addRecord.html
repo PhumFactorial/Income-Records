@@ -1,0 +1,35 @@
+<html>
+<title> Employee </title>
+<body>
+  <div id = "div-table">
+    <table id = "table">
+      <tr>
+        <td> Product ID </td>
+        <td> Quantity </td>
+      </tr>
+    </table>
+    <br><br>
+    <button onclick = "addRow()"> Add Row </button>
+  </div>
+
+</body>
+
+</html>
+
+<style>
+  table, tr,th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  }
+</style>
+
+<script>
+  function addRow(){
+    table = document.getElementById("table")
+    textField = document.createElement("input")
+    row = table.insertRow(-1)
+    textField = document.createTextNode("input")
+    textField.type = "number"
+    row.appendChild(textField);
+  }
+</script>

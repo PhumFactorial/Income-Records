@@ -1,0 +1,53 @@
+<html>
+  <title> Employee </title>
+
+    <body>
+      <div id = "div-table" align = "center">
+        <input type = "text" disabled value = "Product ID">
+        <input type = "text" disabled value = "Quantities">
+        <br>
+      </div>
+      <br>
+      <div align = "right" style = "width:60%">
+        <button onclick = "addRow()"> Add Row </button>
+      </div>
+      <br>
+      <br>
+      <div align = "center">
+        <button id = "button-summit"> Summit </button>
+      </div>
+    </body>
+</html>
+
+<style>
+  input{
+    text-align: center;
+    height:50px;
+    font-size: 20px;
+  }
+  button{
+    text-align:center;
+    font-size:20px;
+  }
+</style>
+
+<script>
+  id = 0
+  function create_input(id,type){
+    temp = document.createElement("input")
+    temp.id = type+id
+    if(type == "quantities"){
+      temp.type = "number"
+    }
+    return temp
+  }
+
+  function addRow(){
+    console.log("Add Row Clicked")
+    elem = document.getElementById("div-table")
+    elem.appendChild(create_input(id.toString(),"id"))
+    elem.appendChild(create_input(id.toString(),"quantities"))
+    elem.appendChild(document.createElement("br"))
+    id++
+}
+</script>
