@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { ethers } from 'ethers'
 import ReactDOM from 'react-dom';
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+//import firebase from 'firebase'
 
 // Update with the contract address logged out to the CLI when it was deployed
 const greeterAddress = "your-contract-address"
-console.log(window.location.pathname)
 
 function App() {
   const button_style = {
@@ -25,6 +25,23 @@ function App() {
     console.log("Employee Clicked")
     var id = 0
 
+    //function for update price
+    function updatePrice(){
+      var price = 0
+      var totalPriceElem = document.getElementById("label-price")
+      for(var i = 0;i < id;i++){
+        var productId = document.getElementById("id"+i.toString())
+        var productQuantity = document.getElementById("quantities"+i.toString())
+        if(productId.value && productQuantity.value){
+          var path = require('path')
+          //const sqlite3 = require('sqlite3').verbose()
+          //const db = new sqlite3.Database("./database.db")
+          price += parseInt(productQuantity.value,10)
+        }
+      }
+      totalPriceElem.innerHTML = price.toString()
+    }
+
     //Function to create input
     function create_input(id,type){
       var temp = document.createElement("input")
@@ -35,6 +52,7 @@ function App() {
       if(type == "quantities"){
         temp.type = "number"
       }
+      temp.oninput = function(){updatePrice()}
       return temp
     }
 
@@ -64,9 +82,19 @@ function App() {
       elem.appendChild(document.createElement("br"))
       id++
     }
+
     const html = (
       <div>
-        <div id = "div-table" align = "center">
+        <div style = {{fontSize:"25px",position:"fixed",width:"20%",top:"10",marginTop:"25px",marginRight:"50px"}}>
+          <label> <b>Total Price is</b> </label>
+          <br/>
+          <label id = "label-price"> 0 </label>
+          <br/>
+          <button id = "button-summit"> <b>Summit</b> </button>
+          <br/>
+          <br/>
+        </div>
+        <div id = "div-table" align = "center" style = {{position:"relative"}}>
           <input type = "text" disabled value = "Product ID" style = {input_style}/>
           <input type = "text" disabled value = "Quantities" style = {input_style}/>
           <br/>
@@ -76,11 +104,6 @@ function App() {
         <button onClick = {addRow}> Add Row </button>
         <br/>
         <br/>
-        <div align = "center">
-          <button id = "button-summit"> Summit </button>
-          <br/>
-          <br/>
-        </div>
       </div>
     )
     ReactDOM.render(html,document.getElementById("main"))
