@@ -127,7 +127,7 @@ function App() {
 
     const html = (
       <div>
-        <div style = {{fontSize:"25px",position:"fixed",width:"20%",top:"10",marginTop:"25px",marginRight:"50px"}}>
+        <div align = "center" style = {{fontSize:"25px",position:"sticky",top:"10",marginTop:"25px",marginRight:"750px",marginLeft:"750px"}}>
           <label> <b>Total Price is</b> </label>
           <br/>
           <label id = "label-price"> 0 </label>
