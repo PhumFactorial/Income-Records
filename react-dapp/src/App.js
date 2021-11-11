@@ -31,6 +31,7 @@ function App() {
     fontSize:"20px",
     height:"50px"
   }
+  //Get Data from Database
   var xhttp = new XMLHttpRequest()
   var records = null
   xhttp.onreadystatechange = function() {
@@ -124,7 +125,7 @@ function App() {
 
 
     }
-
+    //html for Employee
     const html = (
       <div>
         <div align = "center" style = {{fontSize:"25px",position:"sticky",top:"10",marginTop:"25px",marginRight:"750px",marginLeft:"750px"}}>
@@ -154,6 +155,7 @@ function App() {
 
   const manager_clicked = () => {
     console.log("Manager Clicked")
+    //html for manager
     const html = (
       <div>
         <h1> Input Month And Year </h1>
