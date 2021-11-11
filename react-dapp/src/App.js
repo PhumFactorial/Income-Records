@@ -1,14 +1,25 @@
-import './App.css';
-import { useState } from 'react';
+import './App.css'
+import { useState } from 'react'
 import { ethers } from 'ethers'
 import ReactDOM from 'react-dom';
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
-//import firebase from 'firebase'
+
+class Reciept{
+  constructor(){
+    this.ids = new Array()
+    this.quantities = new Array()
+    this.totalPrice = 0
+  }
+}
+
 
 // Update with the contract address logged out to the CLI when it was deployed
 const greeterAddress = "your-contract-address"
+const express_url = "http://localhost:3001"
 
 function App() {
+  const rec = new Reciept()
+  var id = 0
   const button_style = {
     textAlign:"center",
     fontSize:"20px",
@@ -20,26 +31,51 @@ function App() {
     fontSize:"20px",
     height:"50px"
   }
+  var xhttp = new XMLHttpRequest()
+  var records = null
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      records = JSON.parse(this.response)
+      console.log(records)
+    }
+  }
+  xhttp.open("GET",express_url)
+  xhttp.send()
 
   const employee_clicked = () => {
     console.log("Employee Clicked")
-    var id = 0
 
     //function for update price
     function updatePrice(){
-      var price = 0
+      //Reset Reciept
+      rec.price = 0
+      while(rec.ids.length > 0){
+        rec.ids.pop()
+        rec.quantities.pop()
+      }
       var totalPriceElem = document.getElementById("label-price")
       for(var i = 0;i < id;i++){
-        var productId = document.getElementById("id"+i.toString())
-        var productQuantity = document.getElementById("quantities"+i.toString())
-        if(productId.value && productQuantity.value){
-          var path = require('path')
-          //const sqlite3 = require('sqlite3').verbose()
-          //const db = new sqlite3.Database("./database.db")
-          price += parseInt(productQuantity.value,10)
+        var elem = document.getElementById("id"+i.toString())
+        if(!elem){
+          continue
+        }
+        const temp_id = elem.value
+        elem = document.getElementById("quantities"+i.toString())
+        if(!elem){
+          continue
+        }
+        const temp_quantities = parseInt(elem.value)
+        for(var j = 0;j < records.price.length;j++){
+          if(temp_id == records.id[j]){
+            rec.ids.push(temp_id)
+            rec.quantities.push(temp_quantities)
+            rec.price += records.price[j]*rec.quantities[i]
+            break
+          }
         }
       }
-      totalPriceElem.innerHTML = price.toString()
+      console.log(rec)
+      totalPriceElem.innerHTML = rec.price.toString()
     }
 
     //Function to create input
@@ -83,6 +119,12 @@ function App() {
       id++
     }
 
+    const summitClicked = () => {
+      console.log("Summit Button Clicked")
+
+
+    }
+
     const html = (
       <div>
         <div style = {{fontSize:"25px",position:"fixed",width:"20%",top:"10",marginTop:"25px",marginRight:"50px"}}>
@@ -90,7 +132,7 @@ function App() {
           <br/>
           <label id = "label-price"> 0 </label>
           <br/>
-          <button id = "button-summit"> <b>Summit</b> </button>
+          <button id = "button-summit" onClick = {summitClicked}> <b>Summit</b> </button>
           <br/>
           <br/>
         </div>
@@ -108,6 +150,7 @@ function App() {
     )
     ReactDOM.render(html,document.getElementById("main"))
   }
+
 
   const manager_clicked = () => {
     console.log("Manager Clicked")
