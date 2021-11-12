@@ -182,6 +182,7 @@ function App() {
       const context = document.getElementById("chart").getContext("2d")
       if(chart_created){
         temp_data.destroy()
+        chart_created = false
       }
       var xValues = []
       var yValues = []
@@ -208,6 +209,15 @@ function App() {
       const chart = new Chart(context,{type:"line",data:{labels:xValues,datasets:datasets},options:options})
       temp_data = chart
       chart_created = true
+    }
+
+    const clearGraph = () =>{
+      if(chart_created){
+        const label = document.getElementById("label-date")
+        label.innerHTML = ""
+        temp_data.destroy()
+        chart_created = false
+      }
     }
     //html for manager
     const html = (
@@ -240,6 +250,8 @@ function App() {
         <br/>
         <canvas id="chart" style = {{width:"300px",height:"100px",margin:"50px 250px 50px 250px"}}/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"/>
+        <br/>
+        <button style = {{position:"fixed",bottom:50,height:"50px",fontSize:"20px",textAlign:"center"}} onClick = {clearGraph}> Clear Graph </button>
       </div>
     )
     ReactDOM.render(html,document.getElementById("main"))
