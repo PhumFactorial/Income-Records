@@ -125,9 +125,22 @@ function App() {
       id++
     }
 
+
     const summitClicked = () => {
       console.log("Summit Button Clicked")
+      window.alert("Summitted Reciept")
 
+      //Reset related values
+      while(rec.ids.length > 0){
+        rec.ids.pop()
+        rec.quantities.pop()
+      }
+      rec.totalPrice = 0
+      document.getElementById("label-price").innerHTML = 0
+      for(var i = 0;i < id;i++){
+        document.getElementById("id"+i.toString()).value = ""
+        document.getElementById("quantities"+i.toString()).value = ""
+      }
 
     }
     //html for Employee
