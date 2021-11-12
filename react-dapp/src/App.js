@@ -1,8 +1,9 @@
 import './App.css'
 import { useState } from 'react'
 import { ethers } from 'ethers'
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+import Chart from 'chart.js/auto'
 
 class Reciept{
   constructor(){
@@ -16,6 +17,9 @@ class Reciept{
 // Update with the contract address logged out to the CLI when it was deployed
 const greeterAddress = "your-contract-address"
 const express_url = "http://localhost:3001"
+var chart_created = false
+var temp_data = null
+var option = null
 
 function App() {
   const rec = new Reciept()
@@ -45,6 +49,7 @@ function App() {
 
   const employee_clicked = () => {
     console.log("Employee Clicked")
+    option = "employee"
 
     //function for update price
     function updatePrice(){
@@ -155,6 +160,42 @@ function App() {
 
   const manager_clicked = () => {
     console.log("Manager Clicked")
+    option = "manager"
+
+    //view graph button
+    const viewGraph =() => {
+      const label = document.getElementById("label-date")
+      label.innerHTML = document.getElementById("month").value + " " + document.getElementById("year").value
+      const context = document.getElementById("chart").getContext("2d")
+      if(chart_created){
+        temp_data.destroy()
+      }
+      var xValues = []
+      var yValues = []
+      //Test graph
+      for(var i = 1;i <= 31;i++){
+        xValues.push(i.toString())
+        yValues.push(i * i%2)
+      }
+      yValues[3] = 10.8
+      yValues[9] = 100000
+      var datasets = [
+        {
+          label:"Daily Income",
+          fill: false,
+          lineTension: 0,
+          backgroundColor: "rgba(0,0,255,1.0)",
+          borderColor: "rgba(0,0,255,0.1)",
+          data: yValues
+        }
+      ]
+      var options = {
+        legend: {display: false},
+      }
+      const chart = new Chart(context,{type:"line",data:{labels:xValues,datasets:datasets},options:options})
+      temp_data = chart
+      chart_created = true
+    }
     //html for manager
     const html = (
       <div>
@@ -178,6 +219,14 @@ function App() {
         <label style = {input_style}> Year </label>
         <input id = "year" type = "text" style = {input_style}/>
         <br/>
+        <br/>
+        <button style = {{height:"50px",fontSize:"20px",textAlign:"center"}} onClick = {viewGraph}> View Graph </button>
+        <br/>
+        <br/>
+        <label id = "label-date" style = {{fontSize:"50px",fontWeight:"bold"}}/>
+        <br/>
+        <canvas id="chart" style = {{width:"300px",height:"100px",margin:"50px 250px 50px 250px"}}/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"/>
       </div>
     )
     ReactDOM.render(html,document.getElementById("main"))
