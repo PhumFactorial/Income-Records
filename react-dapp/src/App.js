@@ -317,45 +317,13 @@ function App() {
         })
 
       }
-      var month = document.getElementById("month").value
+      var month = document.getElementById("month").value.slice(0,3)
       const year = parseInt(document.getElementById("year").value)
-      switch(month){
-        case "January" :
-          month = 0
+      for(var i = 0;i < month_arr.length;i++){
+        if(month_arr[i] == month){
+          month = i
           break
-        case "Feburary" :
-          month = 1
-          break
-        case "March" :
-          month = 2
-          break
-        case "April" :
-          month = 3
-          break
-        case "May" :
-          month = 4
-          break
-        case "June" :
-          month = 5
-          break
-        case "July" :
-          month = 6
-          break
-        case "August" :
-          month = 7
-          break
-        case "September" :
-          month = 8
-          break
-        case "October" :
-          month = 9
-          break
-        case "November" :
-          month = 10
-          break
-        case "December" :
-          month = 11
-          break
+        }
       }
       drawGraph([month,year])
     }
