@@ -31,12 +31,6 @@ contract RecieptStorage {
 
     //Day Month and Year
     function closeRecord(uint[3] memory _date) public{
-
-
-
-
-
-
         bool date_found = false;
         uint index = 0;
         for(uint i = 0;i < incomes.length;i++){

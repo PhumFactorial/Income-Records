@@ -11,6 +11,5 @@ function retrieveProducts(){
     return rows
     })
 }
-var items = "123"
 
-export default items
+export default {retrieveProducts}
