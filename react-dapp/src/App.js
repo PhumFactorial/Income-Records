@@ -15,7 +15,7 @@ class Reciept{
 const api_url = "https://eth-ropsten.alchemyapi.io/v2/LzXw8cAojWbezDXn_5hXOj0MGb4A0t6M"
 const private_key = "8d09966b9d4ba84fff910f3c89a6491558784a7f497acc389ce9533a3a0f905f"
 const public_key = "0x8C9ac55Ea7B1e42EF1cE01d5c7d5A694b164C0Ba"
-const contract_address = "0xF85461a7B8E3027AbF44C4101b08ED73Eb0410B1"
+const contract_address = "0x7961837A498BDc75E0d189ddd42B88966A05769d"
 const contract = require("./artifacts/contracts/RecieptStorage.sol/RecieptStorage.json")
 
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
@@ -325,7 +325,12 @@ function App() {
           break
         }
       }
-      drawGraph([month,year])
+      if(typeof month == "number" && typeof year == "number"){
+        drawGraph([month,year])
+      }
+      else{
+        window.alert("Error in Month or Year Input")
+      }
     }
 
     const clearGraph = () =>{
